@@ -1,7 +1,7 @@
 // controllers/promocionController.ts
 
 import express from 'express';
-import { getPromocionDiasById } from '../db/promocion';
+import { getPromocionDiasById } from '../db/Promocion';
 
 export const getPromocionDias = async (req: express.Request, res: express.Response) => {
     try {

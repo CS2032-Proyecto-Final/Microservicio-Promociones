@@ -1,7 +1,7 @@
 import express from 'express';
 
-import products from './products';
-import promociones from './promocion'
+import products from './ProductRouter';
+import promociones from './PromocionRouter'
 
 const router = express.Router();
 

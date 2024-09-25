@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { createProduct, getProducts, getProductsByIds } from '../db/producto';
+import { createProduct, getProducts, getProductsByIds } from '../db/Producto';
 
 export const getAllProducts = async (req: express.Request, res: express.Response) => {
     try {
