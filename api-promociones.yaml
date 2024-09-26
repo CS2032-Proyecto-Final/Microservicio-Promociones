@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  title: Promociones API
+  description: API for managing promotions and products
+  version: 1.0.0
+
+paths:
+  /promocion/{id}/dias:
+    get:
+      summary: Obtener fechas de una promoción
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Fechas de promoción obtenidas con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dia_inicio:
+                    type: string
+                  dia_final:
+                    type: string
+        '404':
+          description: Promoción no encontrada
+
+  /productos/nombre:
+    get:
+      summary: Obtener nombres de productos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  producto_id:
+                    type: integer
+      responses:
+        '200':
+          description: Nombres de productos obtenidos con éxito
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    producto_id:
+                      type: integer
+                    nombre_producto:
+                      type: string
