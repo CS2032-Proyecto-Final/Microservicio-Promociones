@@ -29,6 +29,27 @@ paths:
         '404':
           description: Promoción no encontrada
 
+  /promocion/{id}/tienda:
+    get:
+      summary: Obtener tienda id de una promoción
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tienda de promoción obtenida con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tienda_id: integer
+        '404':
+          description: Promoción no encontrada
+
   /productos/nombre:
     get:
       summary: Obtener nombres de productos
