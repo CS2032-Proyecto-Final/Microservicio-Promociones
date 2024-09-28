@@ -15,18 +15,19 @@ export const getProducts = () => {
    return ProductModel.find();
 }
 export const getProductById = (id: Number) => {
-    ProductModel.findOne({id})
+    return ProductModel.findOne({id})
 }
 export const updateProductById = (id:string, values: Record<string, any>) => {
-    ProductModel.findByIdAndUpdate(id, values)
+    return ProductModel.findByIdAndUpdate(id, values)
 };
 export const deleteProductById = (id:string) => {
-    ProductModel.findOneAndDelete({_id : id});
+    return ProductModel.findOneAndDelete({_id : id});
 }
 export const createProduct = (values: Record<string, any> ) => new ProductModel(values)
     .save()
     .then((product) => product.toObject());
 
 export const getProductsByIds = (productIds: number[]) => {
-        return ProductModel.find({ id: { $in: productIds } });
+        return ProductModel.find({ id: { $in: productIds } }, { id: 1, nombre: 1 });
     };
+

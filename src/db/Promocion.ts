@@ -12,17 +12,17 @@ export const PromocionModel = mongoose.model('Promocion', PromocionSchema)
 
 // Funciones para el CRUD de Promocion
 
-export const getPromocion = () => {
-    PromocionModel.find();
+export const getPromociones = () => {
+    return PromocionModel.find();
 }
 export const getPromocionById = (id :Number) => {
-    PromocionModel.findOne({id})
+    return PromocionModel.findOne({id})
 }
 export const updatePromocionById = (id : Number, values: Record<string, any>) => {
-    PromocionModel.findByIdAndUpdate(id, values);
+    return PromocionModel.findByIdAndUpdate(id, values);
 }
 export const deleteByPromocionId = (id : Number) => {
-    PromocionModel.findOneAndDelete({id : id})
+    return PromocionModel.findOneAndDelete({id : id})
 }
 
 export const getPromocionDiasById = (id: Number) => {
