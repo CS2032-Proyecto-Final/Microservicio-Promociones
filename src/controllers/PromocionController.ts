@@ -2,11 +2,10 @@
 
 import express from 'express';
 
-import { ProductModel,getProductById } from '../db/Producto';
+import { ProductModel} from '../db/Producto';
 import { PromocionModel } from '../db/Promocion';
-import { getPromocionById, getPromocionDiasById } from '../db/Promocion';
 import { fetchNombresTiendas, fetchNombreTiendaById } from '../api';
-import { promocionDiasDto, promocionPagoDto } from 'dtos';
+import {  promocionPagoDto } from 'dtos';
 
 
 export const getPromociones = async (req: express.Request, res: express.Response) => {
