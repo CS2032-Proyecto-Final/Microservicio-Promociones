@@ -6,55 +6,7 @@ import { ProductModel,getProductById } from '../db/Producto';
 import { PromocionModel } from '../db/Promocion';
 import { getPromocionById, getPromocionDiasById } from '../db/Promocion';
 import { fetchNombresTiendas, fetchNombreTiendaById } from '../api';
-
-export const getPromocionDias = async (req: express.Request, res: express.Response) => {
-    try {
-        const { id } = req.params; // Extract the id from the path parameters
-
-        const promocionDias = await getPromocionDiasById(Number(id));
-
-        // If no promotion is found, return a 404 error
-        if (!promocionDias) {
-            return res.status(404).json({ error: "Promotion not found" });
-        }
-
-        // Return the start and end dates
-        return res.status(200).json(promocionDias);
-    }
-    catch (error) {
-        console.log(error);
-        return res.sendStatus(400);
-    }
-};
-
-
-export const getPromocionTienda = async (req: express.Request, res: express.Response) => {
-    try {
-        const { id } = req.params; // Extract the id from the path parameters
-
-        // Find the promotion by ID
-        const promocion = await getPromocionById(Number(id));
-
-        // If no promotion is found, return a 404 error
-        if (!promocion) {
-            return res.status(404).json({ error: "Promotion not found" });
-        }
-
-        // Find the product by producto_id from the promotion
-        const product = await getProductById(promocion.producto_id);
-
-        // If no product is found, return a 404 error
-        if (!product) {
-            return res.status(404).json({ error: "Product not found for the promotion" });
-        }
-
-        // Return the tienda_id from the product
-        return res.status(200).json({ tienda_id: product.tienda_id });
-    } catch (error) {
-        console.error(error);
-        return res.sendStatus(400);
-    }
-};
+import { promocionDiasDto, promocionPagoDto } from 'dtos';
 
 
 export const getPromociones = async (req: express.Request, res: express.Response) => {
@@ -124,11 +76,12 @@ export const getProm = async (req: express.Request, res: express.Response) => {
 
         // Step 5: Construct the result with the promotion and product information
         const result = {
-            id: promocion.id,
             nombre_tienda: tienda.nombre_tienda,
             nombre_producto: product.nombre,
             descuento: promocion.descuento,
             precio: product.precio,
+            dia_inicio: promocion.dia_inicio,
+            dia_final: promocion.dia_final
         };
 
         // Step 6: Send the response with status 200
@@ -139,3 +92,40 @@ export const getProm = async (req: express.Request, res: express.Response) => {
         return res.status(500).json({ message: 'Error fetching promotion' });
     }
 };
+
+export const getPromocionPagoById = async (req: express.Request, res: express.Response) => {
+    try {
+        const promocion_id = req.params.id;  // Assuming req.params has the 'id' field for the promotion
+
+        // Fetch promotion by id
+        const promocion = await PromocionModel.findById(promocion_id).lean();
+
+        if (!promocion) {
+            return res.status(404).json({ message: "Promotion not found" });
+        }
+
+        // Fetch the product associated with the promotion's producto_id
+        const product = await ProductModel.findById(promocion.producto_id).lean();
+
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+
+        // Construct the response object
+        const data: promocionPagoDto = {
+            tienda_id: product.tienda_id,
+            dia_inicio: promocion.dia_inicio,
+            dia_final: promocion.dia_final,  // Optional value
+            precio: product.precio,
+            descuento: promocion.descuento,
+            producto_id: product.id
+        };
+
+        // Return the response as JSON
+        return res.json(data);
+    } catch (error) {
+        // Handle error appropriately
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
