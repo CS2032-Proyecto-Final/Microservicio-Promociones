@@ -21,8 +21,8 @@ app.use(bodyParser.json());
 
 const server = http.createServer(app);
 
-server.listen(8000, () => {
-    console.log('Server running on http://localhost:8000/')
+server.listen(8002, () => {
+    console.log('Server running on http://localhost:8002/')
 })
 
 const MONGO_URL = "mongodb+srv://yapekuna:yapekuna@yapekuna.1jkxf.mongodb.net/?retryWrites=true&w=majority&appName=Yapekuna"
