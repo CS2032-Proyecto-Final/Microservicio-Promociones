@@ -52,3 +52,4 @@ export const getProductosNombre = async (req: express.Request, res: express.Resp
         return res.sendStatus(400);
     }
 };
+
