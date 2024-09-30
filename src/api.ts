@@ -29,7 +29,7 @@ export const fetchNombresTiendas = async (tiendaIds: number[]): Promise<Tienda[]
 
 export const fetchNombreTiendaById = async (tienda_id : number ) : Promise<Tienda | null> => {
     try {
-        const response = await axios.patch(`${MC_URL}/tiendas/nombre`, tienda_id);
+        const response = await axios.get(`${MC_URL}/tienda/${tienda_id}/nombre`);
 
         return response.data;
 
