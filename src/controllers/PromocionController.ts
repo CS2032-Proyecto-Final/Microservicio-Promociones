@@ -97,14 +97,16 @@ export const getPromocionPagoById = async (req: express.Request, res: express.Re
         const promocion_id = req.params.id;  // Assuming req.params has the 'id' field for the promotion
 
         // Fetch promotion by id
-        const promocion = await PromocionModel.findById(promocion_id).lean();
+        const promocion = await PromocionModel.findOne({ id: promocion_id }).lean();
+
 
         if (!promocion) {
             return res.status(404).json({ message: "Promotion not found" });
         }
 
         // Fetch the product associated with the promotion's producto_id
-        const product = await ProductModel.findById(promocion.producto_id).lean();
+        const producto_id = promocion.producto_id;
+        const product = await ProductModel.findOne({ id: promocion.producto_id }).lean();
 
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
