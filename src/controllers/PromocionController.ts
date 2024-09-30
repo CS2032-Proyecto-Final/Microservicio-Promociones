@@ -16,9 +16,14 @@ export const getPromociones = async (req: express.Request, res: express.Response
         // Step 2: Get unique tienda_id values from ProductModel
         const products = await ProductModel.find().lean();
         const uniqueTiendaIds = [...new Set(products.map((product) => product.tienda_id))]; // Get unique tienda_id
+        const TiendaIds = uniqueTiendaIds.map((id) => {
+            return {
+                tienda_id: id,
+            }
+        })
 
         // Step 3: Fetch names of the tiendas using the unique tienda_ids
-        const tiendas = await fetchNombresTiendas(uniqueTiendaIds);
+        const tiendas = await fetchNombresTiendas(TiendaIds);
 
         // Step 4: Create a lookup object for tienda_id to nombre_tienda
         const tiendaLookup: { [key: number]: string } = {};
@@ -35,7 +40,7 @@ export const getPromociones = async (req: express.Request, res: express.Response
                 nombre_producto: product?.nombre || 'Unknown Product',
                 descuento: promocion.descuento,
                 precio: product?.precio || 0,
-                dia_inicio: promocion.dia_inicio, // Will be used for sorting
+                dia_inicio: promocion.dia_inicio, // Will be used for sorting   
             };
         });
 

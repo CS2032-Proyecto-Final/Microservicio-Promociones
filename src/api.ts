@@ -7,7 +7,11 @@ interface Tienda {
   nombre_tienda: string;
 }
 
-export const fetchNombresTiendas = async (tiendaIds: number[]): Promise<Tienda[] | null> => {
+interface TiendaId {
+  tienda_id: number;
+}
+
+export const fetchNombresTiendas = async (tiendaIds: TiendaId[]): Promise<Tienda[] | null> => {
   try {
     
     // Make a GET request with tienda_id as query parameters
@@ -16,6 +20,7 @@ export const fetchNombresTiendas = async (tiendaIds: number[]): Promise<Tienda[]
     // Check if the request was successful and data is returned
     if (response.status === 200) {
       const tiendas: Tienda[] = response.data; // Assuming the response returns a list of tiendas
+      console.log(tiendas);
       return tiendas;
     } else if (response.status === 404) {
       // No tiendas found, return null or handle appropriately
