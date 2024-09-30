@@ -9,15 +9,9 @@ interface Tienda {
 
 export const fetchNombresTiendas = async (tiendaIds: number[]): Promise<Tienda[] | null> => {
   try {
-    // Convert tiendaIds array into a comma-separated string
-    const idsParam = tiendaIds.join(',');
-
+    
     // Make a GET request with tienda_id as query parameters
-    const response = await axios.get(`${MC_URL}/tiendas/nombre`, {
-      params: {
-        tienda_id: idsParam, // Sends tienda_id as a query parameter
-      },
-    });
+    const response = await axios.patch(`${MC_URL}/tiendas/nombre`, tiendaIds);
 
     // Check if the request was successful and data is returned
     if (response.status === 200) {
@@ -35,11 +29,7 @@ export const fetchNombresTiendas = async (tiendaIds: number[]): Promise<Tienda[]
 
 export const fetchNombreTiendaById = async (tienda_id : number ) : Promise<Tienda | null> => {
     try {
-        const response = await axios.get(`${MC_URL}/tiendas/nombre`, {
-            params: {
-              tienda_id, // Sends tienda_id as a query parameter
-            },
-          });
+        const response = await axios.patch(`${MC_URL}/tiendas/nombre`, tienda_id);
 
         return response.data;
 
