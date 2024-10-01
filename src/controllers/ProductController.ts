@@ -34,22 +34,34 @@ export const postProduct = async (req: express.Request, res: express.Response) =
 
 export const getProductosNombre = async (req: express.Request, res: express.Response) => {
     try {
-        const { productIds } = req.body; // Assuming you're sending an array of product IDs in the request body
+        const products  = req.body; // Ahora se espera un array de objetos
 
-        // Ensure productIds is an array and not empty
-        if (!Array.isArray(productIds) || productIds.length === 0) {
-            return res.status(400).json({ error: "Product IDs are required and should be an array." });
+        // Asegúrate de que products es un array y no está vacío
+        if (!Array.isArray(products) || products.length === 0) {
+            return res.status(400).json({ error: "Product array is required and should be an array." });
         }
 
-        // Fetch the products using the function from the schema
-        const products = await getProductsByIds(productIds);
+        // Extraer los producto_id de cada objeto
+        const productIds = products.map(product => {
+            if (product && product.producto_id) {
+                return product.producto_id; // Devuelve el producto_id si existe
+            }
+            throw new Error("Invalid product object"); // Lanza un error si el objeto es inválido
+        });
 
-        // Return the found products
-        return res.status(200).json(products);
-    }
-    catch (error) {
+        // Fetch the products using the function from the schema
+        const fetchedProducts = await getProductsByIds(productIds);
+
+        // Mapear los productos a la nueva estructura
+        const responseProducts = fetchedProducts.map(product => ({
+            producto_id: product.id, // Asegúrate de que estas propiedades coincidan con las que devuelve getProductsByIds
+            nombre_producto: product.nombre // Cambia esto según el nombre del campo que contiene el nombre del producto
+        }));
+
+        // Devuelve la lista de productos en la nueva estructura
+        return res.status(200).json(responseProducts);
+    } catch (error) {
         console.log(error);
-        return res.sendStatus(400);
+        return res.status(400).json({ error: error.message || "An error occurred" }); // Muestra el mensaje de error si existe
     }
 };
-
