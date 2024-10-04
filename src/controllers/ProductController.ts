@@ -65,3 +65,8 @@ export const getProductosNombre = async (req: express.Request, res: express.Resp
         return res.status(400).json({ error: error.message || "An error occurred" }); // Muestra el mensaje de error si existe
     }
 };
+
+
+export const getHolaFunction = async (req: express.Request, res: express.Response) => {
+    return res.send("La api funciona!");
+}
