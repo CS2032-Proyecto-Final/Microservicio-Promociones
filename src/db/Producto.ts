@@ -7,7 +7,7 @@ const ProductShema = new mongoose.Schema({
     precio: { type: Number, required: true}
 })
 
-export const ProductModel = mongoose.model('Product',ProductShema )
+export const ProductModel = mongoose.model('productos',ProductShema )
 
 // Funciones para el CRUD de Producto
 

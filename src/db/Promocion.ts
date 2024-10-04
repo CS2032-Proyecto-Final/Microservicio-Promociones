@@ -8,7 +8,7 @@ const PromocionSchema = new mongoose.Schema({
     dia_final: { type: Date }
 })
 
-export const PromocionModel = mongoose.model('Promocion', PromocionSchema)
+export const PromocionModel = mongoose.model('promociones', PromocionSchema)
 
 // Funciones para el CRUD de Promocion
 
