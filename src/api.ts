@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const MC_URL = "http://localhost:8080"; // Replace with your actual API URL
+const MC_URL = "http://mc-c:8080"; // Replace with your actual API URL
 
 interface Tienda {
   tienda_id: number;
